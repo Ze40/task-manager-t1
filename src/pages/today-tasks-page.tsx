@@ -1,5 +1,11 @@
+import { TaskList } from "@/entities/task/ui";
+
 const TodayTasksPage = () => {
-  return <>page</>;
+  return (
+    <div className="">
+      <TaskList tasks={[]} />
+    </div>
+  );
 };
 
 export default TodayTasksPage;
