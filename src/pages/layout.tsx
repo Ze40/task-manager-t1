@@ -1,16 +1,18 @@
 import { Outlet } from "react-router";
 
-import { SidebarProvider, SidebarTrigger } from "@/shared/ui/sidebar";
-import { AppSidebar } from "@/widgets";
+import { SidebarProvider } from "@/shared/ui/sidebar";
+import { AppSidebar, Header } from "@/widgets";
 
 const Layout = () => {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main>
-        <SidebarTrigger />
-        <Outlet />
-      </main>
+      <div className="flex-1">
+        <Header />
+        <main>
+          <Outlet />
+        </main>
+      </div>
     </SidebarProvider>
   );
 };

@@ -52,7 +52,7 @@ const AppSidebar = () => {
   const { open } = useSidebar();
   return (
     <Sidebar collapsible={"icon"} className="collapsed:w-40">
-      <SidebarHeader className="p-6 border-b">
+      <SidebarHeader className="p-6 border-b h-20 justify-center">
         <SidebarMenu>
           <SidebarMenuItem>
             <Logo variant={"sidebar"} />
