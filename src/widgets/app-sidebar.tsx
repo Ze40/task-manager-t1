@@ -2,6 +2,7 @@ import { CheckSquare, type LucideProps } from "lucide-react";
 import { NavLink } from "react-router";
 
 import { UserSidebar } from "@/entities/user/ui";
+import { ThemeSwitch } from "@/feat";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/shared/ui/logo";
 import {
@@ -14,6 +15,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/shared/ui/sidebar";
 
 interface IItem {
@@ -33,6 +35,7 @@ const items: IItem[] = [
 ];
 
 const AppSidebar = () => {
+  const { open } = useSidebar();
   return (
     <Sidebar collapsible={"icon"} className="collapsed:w-40">
       <SidebarHeader className="p-6 border-b">
@@ -66,7 +69,11 @@ const AppSidebar = () => {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <SidebarGroup className="p-4"></SidebarGroup>
+        {open && (
+          <SidebarGroup className="p-4">
+            <ThemeSwitch />
+          </SidebarGroup>
+        )}
         <SidebarGroup className="p-4 border-t">
           <UserSidebar />
         </SidebarGroup>

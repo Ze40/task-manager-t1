@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
 
-export const useTheme = () => {
+interface ReturnUseTheme {
+  theme: Theme;
+  toggleTheme: () => void;
+}
+
+export const useTheme = (): ReturnUseTheme => {
   const [theme, setTheme] = useState<Theme>("light");
 
   const applyTheme = (theme: Theme) => {
