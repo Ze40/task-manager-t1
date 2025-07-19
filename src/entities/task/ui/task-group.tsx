@@ -7,27 +7,23 @@ import { cn } from "@/lib/utils";
 import type { ITasksGroup } from "../types";
 import TaskListCard from "./task-list-card";
 
-interface TaskGroupProps {
+interface TaskGroupProps extends Omit<ITasksGroup, "id"> {
   variant: "kanban" | "list";
-  taskGroup: ITasksGroup;
+  id?: string;
 }
 
-const TaskGroup = ({ variant, taskGroup }: TaskGroupProps) => {
+const TaskGroup = ({ variant, tasks, name, id }: TaskGroupProps) => {
   if (variant === "kanban") {
     return <></>;
   }
   if (variant === "list") {
-    return <List taskGroup={taskGroup} />;
+    return <List tasks={tasks} name={name} id={id} />;
   }
 };
 
 export default TaskGroup;
 
-interface ListProps {
-  taskGroup: ITasksGroup;
-}
-
-const List = ({ taskGroup }: ListProps) => {
+const List = ({ tasks, name }: Omit<ITasksGroup, "id"> & { id?: string }) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [contentHeight, setContentHeight] = useState<number>(0);
   const contentRef = useRef<HTMLUListElement>(null);
@@ -36,7 +32,7 @@ const List = ({ taskGroup }: ListProps) => {
     if (contentRef.current) {
       setContentHeight(isOpen ? contentRef.current.scrollHeight : 0);
     }
-  }, [isOpen, taskGroup.tasks]);
+  }, [isOpen, tasks]);
 
   return (
     <div>
@@ -46,7 +42,7 @@ const List = ({ taskGroup }: ListProps) => {
         className="flex w-full gap-2 items-center cursor-pointer p-2"
       >
         <ChevronDown className={cn("transition-all duration-200", !isOpen && "-rotate-90")} />
-        <h4 className="text-sm font-semibold">{taskGroup.name}</h4>
+        <h4 className="text-sm font-semibold">{name}</h4>
       </button>
 
       <ul
@@ -57,7 +53,7 @@ const List = ({ taskGroup }: ListProps) => {
           opacity: isOpen ? 1 : 0,
         }}
       >
-        {taskGroup.tasks.map((task) => (
+        {tasks.map((task) => (
           <TaskListCard
             key={task.id}
             title={task.title}

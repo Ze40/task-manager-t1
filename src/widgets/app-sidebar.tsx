@@ -1,4 +1,4 @@
-import { CheckSquare, type LucideProps } from "lucide-react";
+import { Calendar, CheckSquare, type LucideProps } from "lucide-react";
 import { NavLink } from "react-router";
 
 import { UserSidebar } from "@/entities/user/ui";
@@ -31,8 +31,14 @@ const items: IItem[] = [
   {
     url: "/",
     title: "Список задач",
-    icon: CheckSquare,
+    icon: Calendar,
     id: 1,
+  },
+  {
+    url: "/doned",
+    title: "Выполненные задачи",
+    icon: CheckSquare,
+    id: 2,
   },
 ];
 

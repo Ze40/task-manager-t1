@@ -12,7 +12,13 @@ const TaskList = ({ tasks }: TaskListProps) => {
   return (
     <div className={visualMode === "list" ? "flex flex-col" : ""}>
       {tasks.map((group) => (
-        <TaskGroup variant={visualMode} taskGroup={group} key={group.id} />
+        <TaskGroup
+          variant={visualMode}
+          tasks={group.tasks}
+          name={group.name}
+          id={group.id}
+          key={group.id}
+        />
       ))}
     </div>
   );

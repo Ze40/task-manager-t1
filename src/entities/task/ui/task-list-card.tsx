@@ -5,24 +5,27 @@ import { cn } from "@/lib/utils";
 
 import type { ITask } from "../types";
 
-const TaskListCard = ({ title, description, priority, status, tags, id, date }: ITask) => {
+const TaskListCard = ({ title, description, priority, tags, id, date, status }: ITask) => {
   const doneTask = useTasksStore((state) => state.doneTask);
 
   return (
-    <li className="w-full">
+    <li className="flex gap-3 border-b p-2 w-full relative">
+      {status === "done" && (
+        <div className="w-full absolute left-0 top-1/2 h-0.5 bg-ghost z-20"></div>
+      )}
+      <button
+        disabled={status === "done"}
+        onClick={() => doneTask(id)}
+        className={cn("size-5 rounded-sm cursor-pointer duration-300 hover:scale-110", {
+          "border-red-500 border-2": priority === "high",
+          "border-ghost": status === "done",
+        })}
+      ></button>
       <button
         type="button"
-        className="flex justify-between border-b p-2 w-full"
-        onClick={() => doneTask(id)}
+        className="flex w-full justify-between cursor-pointer hover:scale-[1.005] duration-200"
       >
-        <div className="flex items-center gap-2">
-          <button
-            className={cn("size-5 rounded-sm cursor-pointer duration-300 hover:scale-110", {
-              "border-red-500 border-2": priority === "high",
-            })}
-          ></button>
-          <p>{title}</p>
-        </div>
+        <p>{title}</p>
         <div className="flex items-center gap-2">
           {description && <NotepadText size={12} className="text-ghost" />}
           <ul className="flex gap-1 items-center">
