@@ -1,1 +1,1 @@
-export type { ITask } from "./task";
+export type { ITask, ITaskTag, ITasksGroup } from "./task";

@@ -1,11 +1,21 @@
-import type { ITask } from "../types";
+import { useTasksStore } from "@/feat/store";
+
+import type { ITasksGroup } from "../types";
+import TaskGroup from "./task-group";
 
 interface TaskListProps {
-  tasks: ITask[];
+  tasks: ITasksGroup[];
 }
 
 const TaskList = ({ tasks }: TaskListProps) => {
-  return <div className=""></div>;
+  const visualMode = useTasksStore((state) => state.visualMode);
+  return (
+    <div className={visualMode === "list" ? "flex flex-col" : ""}>
+      {tasks.map((group) => (
+        <TaskGroup variant={visualMode} taskGroup={group} key={group.id} />
+      ))}
+    </div>
+  );
 };
 
 export default TaskList;

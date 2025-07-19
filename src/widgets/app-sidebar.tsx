@@ -1,4 +1,4 @@
-import { CalendarDays, type LucideProps, Sun, Sunrise } from "lucide-react";
+import { CheckSquare, type LucideProps } from "lucide-react";
 import { NavLink } from "react-router";
 
 import { UserSidebar } from "@/entities/user/ui";
@@ -30,21 +30,9 @@ interface IItem {
 const items: IItem[] = [
   {
     url: "/",
-    title: "Сегодня",
-    icon: Sun,
+    title: "Список задач",
+    icon: CheckSquare,
     id: 1,
-  },
-  {
-    url: "/tommorow",
-    title: "Завтра",
-    icon: Sunrise,
-    id: 2,
-  },
-  {
-    url: "/week",
-    title: "Следующие 7 дней",
-    icon: CalendarDays,
-    id: 3,
   },
 ];
 
