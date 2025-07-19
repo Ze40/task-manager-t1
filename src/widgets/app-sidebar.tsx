@@ -1,4 +1,4 @@
-import { CheckSquare, type LucideProps } from "lucide-react";
+import { CalendarDays, type LucideProps, Sun, Sunrise } from "lucide-react";
 import { NavLink } from "react-router";
 
 import { UserSidebar } from "@/entities/user/ui";
@@ -24,13 +24,27 @@ interface IItem {
   icon: React.ForwardRefExoticComponent<
     Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>
   >;
+  id: number;
 }
 
 const items: IItem[] = [
   {
     url: "/",
-    title: "Список задач",
-    icon: CheckSquare,
+    title: "Сегодня",
+    icon: Sun,
+    id: 1,
+  },
+  {
+    url: "/tommorow",
+    title: "Завтра",
+    icon: Sunrise,
+    id: 2,
+  },
+  {
+    url: "/week",
+    title: "Следующие 7 дней",
+    icon: CalendarDays,
+    id: 3,
   },
 ];
 
@@ -50,14 +64,14 @@ const AppSidebar = () => {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.id}>
                   <SidebarMenuButton>
                     <NavLink
                       to={item.url}
                       className={({ isActive }) =>
                         cn(
-                          "text-sm flex gap-3 items-center",
-                          isActive ? "text-primary" : "text-ghost"
+                          "text-sm flex gap-3 items-center font-medium",
+                          isActive ? "text-foreground" : "text-ghost"
                         )
                       }
                     >
