@@ -55,7 +55,10 @@ const AppSidebar = () => {
                     <NavLink
                       to={item.url}
                       className={({ isActive }) =>
-                        cn("text-sm flex gap-3", isActive ? "text-primary" : "text-ghost")
+                        cn(
+                          "text-sm flex gap-3 items-center",
+                          isActive ? "text-primary" : "text-ghost"
+                        )
                       }
                     >
                       <item.icon size={16} />
