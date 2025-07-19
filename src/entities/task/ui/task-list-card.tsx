@@ -1,14 +1,21 @@
 import { NotepadText } from "lucide-react";
 
+import { useTasksStore } from "@/feat/store";
 import { cn } from "@/lib/utils";
 
 import type { ITask } from "../types";
 
 const TaskListCard = ({ title, description, priority, status, tags, id, date }: ITask) => {
+  const doneTask = useTasksStore((state) => state.doneTask);
+
   return (
     <li className="w-full">
-      <button type="button" className="flex justify-between border-b p-2 w-full">
-        <div className="flex items-center gap-2 ">
+      <button
+        type="button"
+        className="flex justify-between border-b p-2 w-full"
+        onClick={() => doneTask(id)}
+      >
+        <div className="flex items-center gap-2">
           <button
             className={cn("size-5 rounded-sm cursor-pointer duration-300 hover:scale-110", {
               "border-red-500 border-2": priority === "high",
