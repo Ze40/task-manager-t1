@@ -36,14 +36,16 @@ const List = ({ tasks, name }: Omit<ITasksGroup, "id"> & { id?: string }) => {
 
   return (
     <div>
-      <button
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full gap-2 items-center cursor-pointer p-2"
-      >
-        <ChevronDown className={cn("transition-all duration-200", !isOpen && "-rotate-90")} />
-        <h4 className="text-sm font-semibold">{name}</h4>
-      </button>
+      <div className="flex w-full justify-between">
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className="flex gap-2 items-center cursor-pointer p-2"
+        >
+          <ChevronDown className={cn("transition-all duration-200", !isOpen && "-rotate-90")} />
+          <h4 className="text-sm font-semibold">{name}</h4>
+        </button>
+      </div>
 
       <ul
         ref={contentRef}

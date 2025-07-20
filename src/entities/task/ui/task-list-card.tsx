@@ -17,7 +17,9 @@ const TaskListCard = ({ title, description, priority, tags, id, date, status }: 
         disabled={status === "done"}
         onClick={() => doneTask(id)}
         className={cn("size-5 rounded-sm cursor-pointer duration-300 hover:scale-110", {
-          "border-red-500 border-2": priority === "high",
+          "border-chart-1 border-2": priority === "high",
+          "border-chart-3 border-2": priority === "medium",
+          "border-chart-2 border-2": priority === "low",
           "border-ghost": status === "done",
         })}
       ></button>
@@ -31,14 +33,14 @@ const TaskListCard = ({ title, description, priority, tags, id, date, status }: 
           <ul className="flex gap-1 items-center">
             {tags?.slice(0, 3).map((tag) => (
               <li
-                key={tag.id}
+                key={tag}
                 className="text-xs text-secondary bg-primary py-1 px-2 rounded-xl text-ellipsis overflow-hidden max-w-20"
               >
-                #{tag.name}
+                #{tag}
               </li>
             ))}
           </ul>
-          {date && <p className="text-sm text-chart-2">{date}</p>}
+          {date && <p className="text-sm text-chart-2">{date.toDateString()}</p>}
         </div>
       </button>
     </li>

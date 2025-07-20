@@ -15,9 +15,10 @@ interface ComboboxProps {
   }[];
   value?: string;
   onChange?: (value: string) => void;
+  className?: string;
 }
 
-export function Combobox({ items, label, value, onChange }: ComboboxProps) {
+export function Combobox({ items, label, value, onChange, className }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
 
   const handleSelect = (currentValue: string) => {
@@ -34,7 +35,7 @@ export function Combobox({ items, label, value, onChange }: ComboboxProps) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className={cn("w-[200px] justify-between", className)}
         >
           {value ? items.find((item) => item.value === value)?.label : label}
           <ChevronsUpDown className="opacity-50" />
