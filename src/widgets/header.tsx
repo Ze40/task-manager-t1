@@ -1,5 +1,5 @@
 import { TaskForm } from "@/entities/task/ui";
-import { SearchTasks, TasksVisualSwitch } from "@/feat";
+// import { SearchTasks, TasksVisualSwitch } from "@/feat";
 import { useTasksStore } from "@/feat/store";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 import { SidebarTrigger } from "@/shared/ui/sidebar";
@@ -20,8 +20,8 @@ const Header = () => {
         </Popover>
       </div>
       <div className="flex items-center gap-4">
-        <TasksVisualSwitch />
-        <SearchTasks />
+        {/* <TasksVisualSwitch />
+        <SearchTasks /> */}
       </div>
     </header>
   );

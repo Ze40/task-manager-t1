@@ -117,9 +117,7 @@ const TaskForm = ({ onSubmit, action, defaultState }: TaskFormProps) => {
       </div>
 
       <div className="flex items-center gap-2">
-        {action === "изменить" && defaultState?.status !== "done" && (
-          <Input placeholder="Группа:" {...register("group")} />
-        )}
+        {defaultState?.status !== "done" && <Input placeholder="Группа:" {...register("group")} />}
         <Input placeholder="Теги: (через пробел)" {...register("tags")} />
       </div>
 

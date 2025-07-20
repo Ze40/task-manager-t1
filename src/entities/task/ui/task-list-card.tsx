@@ -32,16 +32,18 @@ const TaskListCard = ({ title, description, priority, tags, id, date, status }: 
         <p>{title}</p>
         <div className="flex items-center gap-2">
           {description && <NotepadText size={12} className="text-ghost" />}
-          <ul className="flex gap-1 items-center">
-            {tags?.slice(0, 3).map((tag) => (
-              <li
-                key={tag}
-                className="text-xs text-secondary bg-primary py-1 px-2 rounded-xl text-ellipsis overflow-hidden max-w-20"
-              >
-                #{tag}
-              </li>
-            ))}
-          </ul>
+          {tags && (
+            <ul className="flex gap-1 items-center">
+              {tags?.slice(0, 3).map((tag) => (
+                <li
+                  key={tag}
+                  className="text-xs text-secondary bg-primary py-1 px-2 rounded-xl text-ellipsis overflow-hidden max-w-20"
+                >
+                  #{tag}
+                </li>
+              ))}
+            </ul>
+          )}
           {date && <p className="text-sm text-chart-2">{date}</p>}
         </div>
       </Link>
