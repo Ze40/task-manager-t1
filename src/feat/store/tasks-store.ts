@@ -27,20 +27,47 @@ export const useTasksStore = create<ITasksStore>()(
               status: "to-do",
               tags: ["tag"],
               priority: "high",
+              date: undefined,
             },
           ],
         },
       ],
       visualMode: "list",
       donedTasks: [],
-      addTask: (task, groupId) =>
-        set((state) => ({
-          tasksGroups: state.tasksGroups.map((group) =>
-            group.id === groupId
-              ? { ...group, tasks: [...group.tasks, { ...task, id: nanoid() }] }
-              : group
-          ),
-        })),
+      addTask: (task, addGroup) =>
+        set((state) => {
+          const groupIndex = state.tasksGroups.findIndex(
+            (group) => group.name.toLowerCase() === addGroup.toLowerCase()
+          );
+
+          const newTask = { ...task, id: nanoid() };
+
+          if (task.status === "done") {
+            return {
+              donedTasks: [...state.donedTasks, newTask],
+            };
+          }
+
+          if (groupIndex !== -1) {
+            const newTasksGroups = [...state.tasksGroups];
+            newTasksGroups[groupIndex] = {
+              ...newTasksGroups[groupIndex],
+              tasks: [...newTasksGroups[groupIndex].tasks, newTask],
+            };
+            return {
+              tasksGroups: newTasksGroups,
+            };
+          } else {
+            const newGroup = {
+              name: addGroup,
+              id: nanoid(),
+              tasks: [newTask],
+            };
+            return {
+              tasksGroups: [...state.tasksGroups, newGroup],
+            };
+          }
+        }),
       doneTask: (taskId) =>
         set((state) => {
           let doneTask: ITask | undefined;

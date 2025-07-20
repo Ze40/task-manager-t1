@@ -32,10 +32,14 @@ const priorityList = [
   },
 ];
 
-type ITaskForm = Omit<ITask, "id" | "tags"> & { tags: string };
+type ITaskForm = Omit<ITask, "id" | "tags" | "date"> & {
+  tags: string;
+  group?: string;
+  date?: Date;
+};
 
 interface TaskFormProps {
-  onSubmit: (data: Omit<ITask, "id">) => void;
+  onSubmit: (data: Omit<ITask, "id">, group: string) => void;
   action: "изменить" | "добавить";
 }
 
@@ -50,10 +54,14 @@ const TaskForm = ({ onSubmit, action }: TaskFormProps) => {
   const submit = (data: ITaskForm) => {
     const tagsArray = data.tags?.trim().split(/\s+/);
     const processedData: Omit<ITask, "id"> = {
-      ...data,
+      title: data.title,
+      description: data.description,
+      date: data.date?.toDateString(),
+      status: data.status,
+      priority: data.priority,
       tags: tagsArray,
     };
-    onSubmit(processedData);
+    onSubmit(processedData, data.group || "входящие");
   };
 
   return (
@@ -115,7 +123,10 @@ const TaskForm = ({ onSubmit, action }: TaskFormProps) => {
           )}
         />
       </div>
-      <Input placeholder="Теги: (через пробел)" {...register("tags")} />
+      <div className="flex items-center gap-2">
+        <Input placeholder="Группа:" {...register("group")} className="w-1/3" />
+        <Input placeholder="Теги: (через пробел)" {...register("tags")} />
+      </div>
       {errors.root && <p className="text-xs text-chart-1 text-center">{errors.root.message}</p>}
       <Button type="submit" className={"capitalize"}>
         {action}

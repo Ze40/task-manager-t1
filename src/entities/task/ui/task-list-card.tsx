@@ -40,7 +40,7 @@ const TaskListCard = ({ title, description, priority, tags, id, date, status }: 
               </li>
             ))}
           </ul>
-          {date && <p className="text-sm text-chart-2">{date.toDateString()}</p>}
+          {date && <p className="text-sm text-chart-2">{date}</p>}
         </div>
       </button>
     </li>

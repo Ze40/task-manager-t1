@@ -1,7 +1,6 @@
 import { TaskForm } from "@/entities/task/ui";
 import { SearchTasks, TasksVisualSwitch } from "@/feat";
 import { useTasksStore } from "@/feat/store";
-import { Button } from "@/shared/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 import { SidebarTrigger } from "@/shared/ui/sidebar";
 
@@ -12,11 +11,11 @@ const Header = () => {
       <div className="flex items-center gap-4">
         <SidebarTrigger />
         <Popover>
-          <PopoverTrigger>
-            <Button>Добавить задачу</Button>
+          <PopoverTrigger className="px-4 py-2 rounded-sm bg-primary text-secondary hover:opacity-90 duration-300">
+            Добавить задачу
           </PopoverTrigger>
           <PopoverContent className="w-min">
-            <TaskForm action="добавить" onSubmit={(data) => addTask(data, "inbox")} />
+            <TaskForm action="добавить" onSubmit={(data, group) => addTask(data, group)} />
           </PopoverContent>
         </Popover>
       </div>

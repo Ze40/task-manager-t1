@@ -4,7 +4,7 @@ export interface ITask {
   tags?: string[];
   status: "to-do" | "in-progress" | "done";
   priority: "low" | "medium" | "high";
-  date?: Date;
+  date?: string;
   id: string;
 }
 
