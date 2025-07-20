@@ -2,6 +2,8 @@ import { useEffect } from "react";
 
 import { Controller, useForm } from "react-hook-form";
 
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 import { Button } from "@/shared/ui/button";
 import { Combobox } from "@/shared/ui/combobox";
 import { DatePicker } from "@/shared/ui/date-picker";
@@ -30,6 +32,7 @@ interface TaskFormProps {
 }
 
 const TaskForm = ({ onSubmit, action, defaultState }: TaskFormProps) => {
+  const isMobile = useIsMobile();
   const {
     reset,
     register,
@@ -60,7 +63,10 @@ const TaskForm = ({ onSubmit, action, defaultState }: TaskFormProps) => {
   };
 
   return (
-    <form className="w-sm flex flex-col gap-3 p-4" onSubmit={handleSubmit(submit)}>
+    <form
+      className={cn("flex flex-col gap-3 p-4", isMobile ? "w-2xs" : "w-sm")}
+      onSubmit={handleSubmit(submit)}
+    >
       <div className="flex items-center gap-2">
         <Input
           placeholder="Заголовок:"
@@ -86,13 +92,13 @@ const TaskForm = ({ onSubmit, action, defaultState }: TaskFormProps) => {
 
       <Textarea placeholder="Описание:" {...register("description")} />
 
-      <div className="flex items-center gap-2 justify-between">
+      <div className={cn("flex items-center gap-2 justify-between", isMobile && "flex-col")}>
         <Controller
           name="status"
           control={control}
           render={({ field }) => (
             <Combobox
-              className="w-[45%]"
+              className={isMobile ? "w-[100%]" : "w-[45%]"}
               items={statusList}
               label="Статус задачи:"
               value={field.value}
@@ -106,7 +112,7 @@ const TaskForm = ({ onSubmit, action, defaultState }: TaskFormProps) => {
           control={control}
           render={({ field }) => (
             <Combobox
-              className="w-[50%]"
+              className={isMobile ? "w-[100%]" : "w-[50%]"}
               items={priorityList}
               label="Приоритет задачи:"
               value={field.value}
@@ -116,7 +122,7 @@ const TaskForm = ({ onSubmit, action, defaultState }: TaskFormProps) => {
         />
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className={cn("flex items-center gap-2", isMobile && "flex-col")}>
         {defaultState?.status !== "done" && <Input placeholder="Группа:" {...register("group")} />}
         <Input placeholder="Теги: (через пробел)" {...register("tags")} />
       </div>
