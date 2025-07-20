@@ -1,4 +1,5 @@
 import { NotepadText } from "lucide-react";
+import { Link } from "react-router";
 
 import { useTasksStore } from "@/feat/store";
 import { cn } from "@/lib/utils";
@@ -23,7 +24,8 @@ const TaskListCard = ({ title, description, priority, tags, id, date, status }: 
           "border-ghost": status === "done",
         })}
       ></button>
-      <button
+      <Link
+        to={`/task-info/${id}`}
         type="button"
         className="flex w-full justify-between cursor-pointer hover:scale-[1.005] duration-200"
       >
@@ -42,7 +44,7 @@ const TaskListCard = ({ title, description, priority, tags, id, date, status }: 
           </ul>
           {date && <p className="text-sm text-chart-2">{date}</p>}
         </div>
-      </button>
+      </Link>
     </li>
   );
 };

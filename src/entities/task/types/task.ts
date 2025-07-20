@@ -13,3 +13,9 @@ export interface ITasksGroup {
   id: string;
   tasks: ITask[];
 }
+
+export type ITaskForm = Omit<ITask, "id" | "tags" | "date"> & {
+  tags?: string;
+  group?: string;
+  date?: Date;
+};

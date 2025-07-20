@@ -10,11 +10,13 @@ interface ITasksStore {
   donedTasks: ITask[];
   addTask: (task: Omit<ITask, "id">, groupId: string) => void;
   doneTask: (taskId: string) => void;
+  getTaskById: (taskId: string) => { task: Omit<ITask, "id">; group?: string } | undefined;
+  editTask: (taskId: string, task: Omit<ITask, "id">, groupId: string) => void;
 }
 
 export const useTasksStore = create<ITasksStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       tasksGroups: [
         {
           name: "Входящие",
@@ -89,6 +91,46 @@ export const useTasksStore = create<ITasksStore>()(
           return {
             tasksGroups: newTasksGroups,
             donedTasks: doneTask ? [...state.donedTasks, doneTask] : state.donedTasks,
+          };
+        }),
+      getTaskById: (taskId) => {
+        const { tasksGroups, donedTasks } = get();
+
+        for (const group of tasksGroups) {
+          const task = group.tasks.find((t) => t.id === taskId);
+          if (task) return { task, group: group.name };
+        }
+
+        const doneTask = donedTasks.find((t) => t.id === taskId);
+        if (doneTask) return { task: doneTask };
+
+        return undefined;
+      },
+      editTask: (taskId, updatedTask, groupName) =>
+        set((state) => {
+          const newTasksGroups = state.tasksGroups.map((group) => {
+            if (group.name === groupName) {
+              const newTasks = group.tasks.map((task) => {
+                if (task.id === taskId) {
+                  return { ...task, ...updatedTask };
+                }
+                return task;
+              });
+              return { ...group, tasks: newTasks };
+            }
+            return group;
+          });
+
+          const newDonedTasks = state.donedTasks.map((task) => {
+            if (task.id === taskId) {
+              return { ...task, ...updatedTask };
+            }
+            return task;
+          });
+
+          return {
+            tasksGroups: newTasksGroups,
+            donedTasks: newDonedTasks,
           };
         }),
     }),

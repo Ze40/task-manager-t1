@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import { Controller, useForm } from "react-hook-form";
 
 import { Button } from "@/shared/ui/button";
@@ -7,56 +9,49 @@ import { Input } from "@/shared/ui/input";
 import { Textarea } from "@/shared/ui/textarea";
 
 import type { ITask } from "../types";
+import type { ITaskForm } from "../types/task";
 
 const statusList = [
   { value: "to-do", label: "To Do" },
-  {
-    value: "in-progress",
-    label: "In Prgress",
-  },
-  {
-    value: "done",
-    label: "Done",
-  },
+  { value: "in-progress", label: "In Progress" },
+  { value: "done", label: "Done" },
 ];
 
 const priorityList = [
   { value: "low", label: "Низкий" },
-  {
-    value: "medium",
-    label: "Средний",
-  },
-  {
-    value: "high",
-    label: "Высокий",
-  },
+  { value: "medium", label: "Средний" },
+  { value: "high", label: "Высокий" },
 ];
-
-type ITaskForm = Omit<ITask, "id" | "tags" | "date"> & {
-  tags: string;
-  group?: string;
-  date?: Date;
-};
 
 interface TaskFormProps {
   onSubmit: (data: Omit<ITask, "id">, group: string) => void;
   action: "изменить" | "добавить";
+  defaultState?: ITaskForm;
 }
 
-const TaskForm = ({ onSubmit, action }: TaskFormProps) => {
+const TaskForm = ({ onSubmit, action, defaultState }: TaskFormProps) => {
   const {
+    reset,
     register,
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<ITaskForm>();
+  } = useForm<ITaskForm>({
+    defaultValues: defaultState,
+  });
+
+  useEffect(() => {
+    if (defaultState) {
+      reset(defaultState);
+    }
+  }, [defaultState, reset]);
 
   const submit = (data: ITaskForm) => {
     const tagsArray = data.tags?.trim().split(/\s+/);
     const processedData: Omit<ITask, "id"> = {
       title: data.title,
       description: data.description,
-      date: data.date?.toDateString(),
+      date: data.date ? data.date.toDateString() : undefined,
       status: data.status,
       priority: data.priority,
       tags: tagsArray,
@@ -68,19 +63,15 @@ const TaskForm = ({ onSubmit, action }: TaskFormProps) => {
     <form className="w-sm flex flex-col gap-3 p-4" onSubmit={handleSubmit(submit)}>
       <div className="flex items-center gap-2">
         <Input
-          className=""
           placeholder="Заголовок:"
           {...register("title", {
-            required: {
-              value: true,
-              message: "Заголовок обзателен",
-            },
+            required: "Заголовок обязателен",
           })}
         />
+
         <Controller
           name="date"
           control={control}
-          defaultValue={undefined}
           render={({ field }) => (
             <DatePicker
               size="icon"
@@ -92,12 +83,13 @@ const TaskForm = ({ onSubmit, action }: TaskFormProps) => {
           )}
         />
       </div>
+
       <Textarea placeholder="Описание:" {...register("description")} />
+
       <div className="flex items-center gap-2 justify-between">
         <Controller
           name="status"
           control={control}
-          defaultValue={undefined}
           render={({ field }) => (
             <Combobox
               className="w-[45%]"
@@ -108,10 +100,10 @@ const TaskForm = ({ onSubmit, action }: TaskFormProps) => {
             />
           )}
         />
+
         <Controller
           name="priority"
           control={control}
-          defaultValue={undefined}
           render={({ field }) => (
             <Combobox
               className="w-[50%]"
@@ -123,11 +115,16 @@ const TaskForm = ({ onSubmit, action }: TaskFormProps) => {
           )}
         />
       </div>
+
       <div className="flex items-center gap-2">
-        <Input placeholder="Группа:" {...register("group")} className="w-1/3" />
+        {action === "изменить" && defaultState?.status !== "done" && (
+          <Input placeholder="Группа:" {...register("group")} />
+        )}
         <Input placeholder="Теги: (через пробел)" {...register("tags")} />
       </div>
+
       {errors.root && <p className="text-xs text-chart-1 text-center">{errors.root.message}</p>}
+
       <Button type="submit" className={"capitalize"}>
         {action}
       </Button>

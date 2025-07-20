@@ -1,1 +1,1 @@
-export type { ITask, ITaskTag, ITasksGroup } from "./task";
+export type { ITask, ITasksGroup, ITaskForm } from "./task";
